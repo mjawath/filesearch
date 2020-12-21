@@ -78,8 +78,7 @@ public class ListTest {
         String dirctory ="C:\\dev\\findstringinfiles\\files\\dir1";
         List<Todo> todos = new ArrayList<>();
         Main.analyseDirectory(Paths.get(dirctory),todos);
-//        boolean pat = (boolean) todos;
-        Assert.assertTrue("dircotry does not contains TODO",todos.size()==0);
+        Assert.assertTrue("directory contains TODO",todos.size()==2);
     }
 
 
