@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Phaser;
 
 /**
@@ -77,6 +78,15 @@ public class FileAnalyser implements Runnable {
     public static boolean checkPattern(String line) {
         String pattern = "TODO";
         return line.contains(pattern);
+    }
+
+
+    public static void executeFileAnalyser(Path path, Phaser phaser, ExecutorService es, final List<Todo> todos) {
+        if(es!=null && phaser!=null) {
+            es.submit(new FileAnalyser(path,phaser,todos));
+        }else {
+            todos.addAll(FileAnalyser.analyseFile(path));
+        }
     }
 
 

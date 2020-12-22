@@ -38,7 +38,7 @@ public class ListTest {
 
         String dirctory ="C:\\dev\\findstringinfiles\\files\\dir3";
         List<Todo> todos = new ArrayList<>();
-        Main.analyseDirectory(Paths.get(dirctory),null,null,todos);
+        DirectoryAnalyser.analyseDirectory(Paths.get(dirctory),null,null,todos);
 //        boolean pat = (boolean) todos;
         Assert.assertTrue("directory  contains TODO",todos.size()==2);
 //        Assert.assertEquals("directory  contains TODO",todos.get(0).getFilePath(),
@@ -51,7 +51,7 @@ public class ListTest {
 
         String dirctory ="C:\\dev\\findstringinfiles\\files";
         List<Todo> todos = new ArrayList<>();
-        Main.analyseDirectory(Paths.get(dirctory),todos);
+        DirectoryAnalyser.analyseDirectory(Paths.get(dirctory),todos);
 //        boolean pat = (boolean) todos;
         Assert.assertTrue("directory  contains TODO",todos.size()>0);
 //        Assert.assertEquals("directory  contains TODO",todos.get(0).getFilePath(),
@@ -65,7 +65,7 @@ public class ListTest {
 
         String dirctory ="C:\\dev\\findstringinfiles\\files\\empty";
         List<Todo> todos = new ArrayList<>();
-        Main.analyseDirectory(Paths.get(dirctory),todos);
+        DirectoryAnalyser.analyseDirectory(Paths.get(dirctory),todos);
 //        boolean pat = (boolean) todos;
         Assert.assertTrue("dircotry does not contains TODO",todos.size()==0);
 
@@ -76,7 +76,7 @@ public class ListTest {
 
         String dirctory ="C:\\dev\\findstringinfiles\\files\\dir1";
         List<Todo> todos = new ArrayList<>();
-        Main.analyseDirectory(Paths.get(dirctory),todos);
+        DirectoryAnalyser.analyseDirectory(Paths.get(dirctory),todos);
         Assert.assertTrue("directory contains TODO",todos.size()==2);
     }
 
@@ -86,7 +86,7 @@ public class ListTest {
 
         String dirctory ="C:\\dev\\findstringinfiles\\files\\dir2";
         List<Todo> todos = new ArrayList<>();
-        Main.analyseDirectory(Paths.get(dirctory),todos);
+        DirectoryAnalyser.analyseDirectory(Paths.get(dirctory),todos);
 //        boolean pat = (boolean) todos;
         Assert.assertTrue("dircotry does not contains TODO",todos.size()==0);
     }
