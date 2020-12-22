@@ -1,4 +1,3 @@
-import exceptions.FileNotFound;
 import exceptions.IORuntimeException;
 import model.Todo;
 
@@ -24,7 +23,7 @@ public class Main {
         List todos = Collections.synchronizedList(new ArrayList<>());
         String dirctory = "C:\\dev\\findstringinfiles\\files";
 
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        ExecutorService executorService = Executors.newCachedThreadPool();
 
         Phaser phaser = new Phaser(1);
         analyseDirectory(Paths.get(dirctory), phaser, executorService, todos);
@@ -39,40 +38,6 @@ public class Main {
 
     }
 
-
-    public static List<Todo> analyseFile(Path filePath) {
-        if (filePath.toFile().isFile()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(filePath.toFile()))) {
-                int ln = 0;
-                List<Todo> todos = new ArrayList<>();
-                String line = null;
-                while ((line = br.readLine()) != null) {
-                    boolean contains = checkPattern(line);
-                    if (contains) {
-                        Todo todo = new Todo(filePath.toString(), ln, line);
-                        todos.add(todo);
-                    }
-                    ln++;
-                }
-                return todos;
-
-
-            } catch (Exception e) {
-                if (e instanceof FileNotFoundException) {
-                    throw new FileNotFound(e);
-                } else if (e instanceof IOException) {
-                    throw new IORuntimeException(e);
-                }
-            }
-        }
-        throw new FileNotFound();
-
-    }
-
-    public static boolean checkPattern(String line) {
-        String pattern = "TODO";
-        return line.contains(pattern);
-    }
 
     public static void analyseDirectory(Path path, List todos) {
         analyseDirectory(path,null,null,todos);
@@ -99,17 +64,10 @@ public class Main {
 
     private static void executeFileAnalyser(Path path, Phaser phaser, ExecutorService es,final List<Todo> todos) {
         if(es!=null && phaser!=null) {
-            es.submit(() -> {
-                System.out.println("execution of file " + phaser.getPhase());
-                phaser.register();
-                List<Todo> tt = analyseFile(path);
-                todos.addAll(tt);
-                phaser.arriveAndAwaitAdvance();
-//            phaser.arriveAndDeregister();
-                System.out.println("completed execution of file " + phaser.getPhase() + " " + path);
-            });
+            es.submit(new FileAnalyser(path,phaser,todos));
+
         }else {
-            todos.addAll(analyseFile(path));
+            todos.addAll(FileAnalyser.analyseFile(path));
         }
     }
 

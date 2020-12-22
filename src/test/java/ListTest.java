@@ -3,7 +3,6 @@ import model.Todo;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ public class ListTest {
     @Test()
     public void testPatternContains(){
 
-        boolean pat = Main.checkPattern("loadfasdfj kjejkeja askdfasfj // TODO");
+        boolean pat = FileAnalyser.checkPattern("loadfasdfj kjejkeja askdfasfj // TODO");
         Assert.assertTrue("input contains the pattern",pat);
 
     }
@@ -28,7 +27,7 @@ public class ListTest {
 
     @Test
     public void testPatternNotContains(){
-        boolean pat = Main.checkPattern("loadfasdfj kjejkeja askdfasfj // TsODO");
+        boolean pat = FileAnalyser.checkPattern("loadfasdfj kjejkeja askdfasfj // TsODO");
         Assert.assertFalse("input does not contain the pattern",pat);
 
     }
@@ -96,7 +95,7 @@ public class ListTest {
     public void fileContainsTodo(){
 
         String dirctory ="C:\\dev\\findstringinfiles\\files\\dir1\\file1.txt";
-        List<Todo> todos = Main.analyseFile(Paths.get(dirctory));
+        List<Todo> todos = FileAnalyser.analyseFile(Paths.get(dirctory));
 //        boolean pat = (boolean) todos;
         Assert.assertEquals("file contains TODO",Paths.get("C:\\dev\\findstringinfiles\\files\\dir1\\file1.txt"),
                 Paths.get(todos.get(0).getFilePath()));
@@ -108,7 +107,7 @@ public class ListTest {
 //        Files.walkFileTree()
 
         String dirctory ="C:\\dev\\findstringinfiles\\files\\file1.txt";
-        List<Todo> todos = Main.analyseFile(Paths.get(dirctory));
+        List<Todo> todos = FileAnalyser.analyseFile(Paths.get(dirctory));
 //        boolean pat = (boolean) todos;
 //        Assert.assertEquals("file contains TODO",Paths.get("C:\\dev\\findstringinfiles\\files\\file1.txt"),
 //                Paths.get(todos.get(0).getFilePath()));
